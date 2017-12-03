@@ -310,7 +310,7 @@ def draw(df, title=""):
     # 使用 cursor 的時候，如果沒有設定上下限，圖形的上下限會跑掉
     yh = df.High.max()
     yl = df.Low.min()
-    ax0.set_ylim(yh + (yh-yl)/20.0, yl - (yh-yl)/20.0)
+    ax0.set_ylim(yl - (yh-yl)/20.0, yh + (yh-yl)/20.0)
     ax0.set_xlim(0, len(df.Date)-1)
 
     plt.show()
