@@ -27,8 +27,7 @@ from dateutil.parser import parse
 # 讀股價歷史資料
 import pandas_datareader.data as web
 
-# 技術分析
-import talib
+import pandas as pd
 
 has_chinese_font = False
 chinese_font_path = r"c:\windows\fonts\simsun.ttc"
@@ -213,9 +212,9 @@ class Cursor(object):
 
 
 def draw_price_ta(ax0, df):
-    df['ma05'] = talib.SMA(df.Close.values, timeperiod=5)
-    df['ma20'] = talib.SMA(df.Close.values, timeperiod=20)
-    df['ma60'] = talib.SMA(df.Close.values, timeperiod=60)
+    df['ma05'] = pd.Series.rolling(df['Close'], window=5).mean()
+    df['ma20'] = pd.Series.rolling(df['Close'], window=20).mean()
+    df['ma60'] = pd.Series.rolling(df['Close'], window=60).mean()
     ax0.plot(df['ma05'].values, color='m', lw=2, label='MA (5)')
     ax0.plot(df['ma20'].values, color='blue', lw=2, label='MA (20)')
     ax0.plot(df['ma60'].values, color='black', lw=2, label='MA (60)')
