@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import os
 import sys
 import datetime
 import numpy as np
@@ -29,6 +30,12 @@ import pandas_datareader.data as web
 # 技術分析
 import talib
 
+has_chinese_font = False
+chinese_font_path = r"c:\windows\fonts\simsun.ttc"
+if os.path.exists(chinese_font_path):
+    from matplotlib.font_manager import FontProperties
+    font = FontProperties(fname=chinese_font_path, size=24)
+    has_chinese_font = True
 
 def candlestick(ax, opens, highs, lows, closes, width=4, colorup='k', colordown='r', alpha=0.75, ):
     "畫 K 線圖"
@@ -283,7 +290,10 @@ def draw(df, title=""):
     ax0.format_coord=format_coord1
     ax0.legend(loc='upper left', shadow=True, fancybox=True)
     ax0.set_ylabel('Price($)', fontsize=16)
-    ax0.set_title(title, fontsize=24, fontweight='bold')
+    if has_chinese_font:
+        ax0.set_title(title, fontsize=24, fontweight='bold', fontproperties=font)
+    else:
+        ax0.set_title(title, fontsize=24, fontweight='bold')
     ax0.grid(True)
 
     ax1 = plt.subplot(gs[1], sharex=ax0)
