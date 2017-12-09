@@ -36,7 +36,7 @@ if os.path.exists(chinese_font_path):
     font = FontProperties(fname=chinese_font_path, size=24)
     has_chinese_font = True
 
-def candlestick(ax, opens, highs, lows, closes, width=4, colorup='k', colordown='r', alpha=0.75, ):
+def candlestick(ax, opens, highs, lows, closes, width=4, colorup='g', colordown='r', alpha=0.75, ):
     "畫 K 線圖"
 
     delta = width / 2.
@@ -97,7 +97,7 @@ def candlestick(ax, opens, highs, lows, closes, width=4, colorup='k', colordown=
     return rangeCollection, barCollection
 
 
-def volume_overlay(ax, opens, closes, volumes, colorup='k', colordown='r', width=4, alpha=1.0):
+def volume_overlay(ax, opens, closes, volumes, colorup='g', colordown='r', width=4, alpha=1.0):
     """Add a volume overlay to the current axes.  The opens and closes
     are used to determine the color of the bar.  -1 is missing.  If a
     value is missing on one it must be missing on all
@@ -224,7 +224,7 @@ def draw_volume_ta(ax1, df):
     pass
 
 
-def draw(df, title=""):
+def draw(df, title="", colorup='g', colordown='r'):
     # 畫出價量曲線
 
     # 檢查實際讀到的日期
@@ -277,7 +277,7 @@ def draw(df, title=""):
     gs = gridspec.GridSpec(2, 1, height_ratios=[4, 1])
 
     ax0 = plt.subplot(gs[0])
-    candles = candlestick(ax0, df.Open, df.High, df.Low, df.Close, width=1, colorup='g', colordown='r')
+    candles = candlestick(ax0, df.Open, df.High, df.Low, df.Close, width=1, colorup=colorup, colordown=colordown)
 
     last_price = "Date:{}, Open:{}, High:{}, Low:{}, Close:{}, Volume:{}".format(df.Date[-1], df.Open[-1], df.High[-1], df.Low[-1], df.Close[-1], df.Volume[-1])
     ax0.text(0.99, 0.97, last_price, horizontalalignment='right', verticalalignment='bottom', transform=ax0.transAxes)
@@ -296,7 +296,7 @@ def draw(df, title=""):
     ax0.grid(True)
 
     ax1 = plt.subplot(gs[1], sharex=ax0)
-    vc = volume_overlay(ax1, df.Open, df.Close, df.Volume, colorup='g', width=1)
+    vc = volume_overlay(ax1, df.Open, df.Close, df.Volume, colorup=colorup, colordown=colordown, width=1)
 
     ax1.set_xticks(tickindex)
     ax1.set_xticklabels(ticknames)
